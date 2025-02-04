@@ -3,6 +3,7 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
+# this part handles the initial sorting when the game is booted and the blind is selected
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
@@ -20,10 +21,10 @@ target = "functions/button_callbacks.lua"
 pattern = "G.hand:sort('suit desc')"
 position = "at"
 payload = '''
-sort_ascending = false
-if sort_ascending == nil then
-	G.hand:sort('asc')
-	sort_ascending = false
+sort_ascending = asc_bool
+if sort_ascending_suit == nil then
+	G.hand:sort('suit '..opp_order)
+	sort_ascending_suit = asc_bool
 elseif not sort_ascending_suit then
 	G.hand:sort('suit desc')
 	sort_ascending_suit = true
@@ -41,10 +42,10 @@ target = "functions/button_callbacks.lua"
 pattern = "G.hand:sort('desc')"
 position = "at"
 payload = '''
-sort_ascending_suit = false
+sort_ascending_suit = asc_bool
 if sort_ascending == nil then
-	G.hand:sort('asc')
-	sort_ascending = false
+	G.hand:sort(opp_order)
+	sort_ascending = asc_bool
 elseif not sort_ascending then
 	G.hand:sort('desc')
 	sort_ascending = true

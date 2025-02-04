@@ -3,9 +3,9 @@
 --- MOD_NAME: Order
 --- MOD_ID: order
 --- MOD_AUTHOR: [PinkMaggit]
---- MOD_DESCRIPTION: Makes it possible to sort by rank or suit in ascending or descending order by pressing the respective sort button
---- BADGE_COLOR: a58547
---- BADGE_TEXT_COLOR: ffe5b4
+--- MOD_DESCRIPTION: Makes it possible to sort by rank or suit in ascending or descending order by pressing the respective sort button. You can also set the default sorting method/order.
+--- BADGE_COLOR: 9e74ce
+--- BADGE_TEXT_COLOR: ffffff
 --- PREFIX: order
 --- VERSION: 1.0
 --- LOADER_VERSION_GEQ: 1.0.0
@@ -32,12 +32,19 @@ Order.config_tab = function()
 	}}
 end
 
-if Order.config.default_order == 1 then
-	default_sort = (Order.config.default_method == 2 and "suit " or "") .. "asc"
-	counter_sort = 'desc'
-	counter_sort_bool = false
-elseif Order.config.default_order == 2 then
-	default_sort = (Order.config.default_method == 2 and "suit " or "") .. 'desc'
-	counter_sort = 'asc'
-	counter_sort_bool = true
-end
+-- if Order.config.default_order == 1 then
+	-- curr_order = 'asc'
+	-- opp_order = 'desc'
+	-- asc_bool = true
+-- elseif Order.config.default_order == 2 then
+	-- curr_order = 'desc'
+	-- opp_order = 'asc'
+	-- asc_bool = false
+-- end
+
+local orders = { 'asc', 'desc' }
+curr_order = orders[Order.config.default_order]
+opp_order = orders[3 - Order.config.default_order]  -- If 1, gives 2; if 2, gives 1
+asc_bool = (curr_order == 'asc')
+
+default_sort = (Order.config.default_method == 2 and "suit " or "") .. curr_order
