@@ -1,0 +1,56 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "cardarea.lua"
+pattern = "self.config.sort = config.sort or 'desc'"
+position = "at"
+payload = '''
+self.config.sort = config.sort or default_sort
+'''
+match_indent = true
+
+# SUIT SORTING
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.hand:sort('suit desc')"
+position = "at"
+payload = '''
+sort_ascending = false
+if sort_ascending == nil then
+	G.hand:sort('asc')
+	sort_ascending = false
+elseif not sort_ascending_suit then
+	G.hand:sort('suit desc')
+	sort_ascending_suit = true
+else
+	G.hand:sort('suit asc')
+	sort_ascending_suit = false
+end
+'''
+match_indent = true
+
+# RANK SORTING
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.hand:sort('desc')"
+position = "at"
+payload = '''
+sort_ascending_suit = false
+if sort_ascending == nil then
+	G.hand:sort('asc')
+	sort_ascending = false
+elseif not sort_ascending then
+	G.hand:sort('desc')
+	sort_ascending = true
+else
+	G.hand:sort('asc')
+	sort_ascending = false
+end
+'''
+match_indent = true
