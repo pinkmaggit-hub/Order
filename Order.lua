@@ -37,7 +37,7 @@ Order.config_tab = function()
 					text_scale=0.5*0.65/(5/6),
 					scale=5/6,
 					cycle_shoulders = true,
-					opt_callback = 'cycle_update'
+					opt_callback = 'updateSortOrder'
 				}),
 				create_option_cycle({
 					label = localize('order_default_method'),
@@ -51,21 +51,11 @@ Order.config_tab = function()
 					text_scale=0.5*0.65/(5/6),
 					scale=5/6,
 					cycle_shoulders = true,
-					opt_callback = 'cycle_update'
+					opt_callback = 'updateSortMethod'
 				}),
 			}},
 	}}
 end
-
--- if Order.config.default_order == 1 then
-	-- curr_order = 'asc'
-	-- opp_order = 'desc'
-	-- asc_bool = true
--- elseif Order.config.default_order == 2 then
-	-- curr_order = 'desc'
-	-- opp_order = 'asc'
-	-- asc_bool = false
--- end
 
 local orders = { 'asc', 'desc' }
 curr_order = orders[Order.config.default_order]
@@ -73,3 +63,20 @@ opp_order = orders[3 - Order.config.default_order]  -- If 1, gives 2; if 2, give
 asc_bool = (curr_order == 'asc')
 
 default_sort = (Order.config.default_method == 2 and "suit " or "") .. curr_order
+
+G.FUNCS.updateSortOrder = function() -- callback function to update chosen order dynamically
+	Order.config.default_order = (Order.config.default_order == 1) and 2 or 1
+	local orders = { 'asc', 'desc' }
+	curr_order = orders[Order.config.default_order]
+	opp_order = orders[3 - Order.config.default_order]  -- If 1, gives 2; if 2, gives 1
+	asc_bool = (curr_order == 'asc')
+
+	default_sort = (Order.config.default_method == 2 and "suit " or "") .. curr_order
+	-- if G.hand then G.hand:sort(default_sort) end
+end
+
+G.FUNCS.updateSortMethod = function() -- callback function to update chosen method dynamically
+	Order.config.default_method = (Order.config.default_method == 1) and 2 or 1
+	default_sort = (Order.config.default_method == 2 and "suit " or "") .. curr_order
+	-- if G.hand then G.hand:sort(default_sort) end
+end
