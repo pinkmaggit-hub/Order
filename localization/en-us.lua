@@ -10,7 +10,6 @@ return {
 			["order_default_order_desc"] = {
                 "Select in which order cards in",
                 "hand will be sorted, by default",
-				"(Requires a game restart)"
             },
 			["order_default_method"] = "Default Method",
 			["order_default_method_options"] = {
@@ -20,7 +19,6 @@ return {
 			["order_default_method_desc"] = {
                 "Select by which category cards in",
                 "hand will be sorted, by default",
-				"(Requires a game restart)"
             },
 		}
 	}

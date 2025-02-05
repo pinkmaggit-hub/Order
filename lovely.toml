@@ -6,6 +6,16 @@ priority = 0
 # this part handles the initial sorting when the game is booted and the blind is selected
 [[patches]]
 [patches.pattern]
+target = "game.lua"
+pattern = "function Game:start_run(args)"
+position = "after"
+payload = '''
+nullifySort()
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
 target = "cardarea.lua"
 pattern = "self.config.sort = config.sort or 'desc'"
 position = "at"
