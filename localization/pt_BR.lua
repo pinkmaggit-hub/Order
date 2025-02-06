@@ -20,6 +20,7 @@ return {
                 "Selecione a ordem na qual as cartas",
                 "na mão serão organizadas, por padrão",
             },
+			["order_autosort"] = "Autosort",
 		}
 	}
 }

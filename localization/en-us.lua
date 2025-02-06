@@ -20,6 +20,7 @@ return {
                 "Select by which category cards in",
                 "hand will be sorted, by default",
             },
+			["order_autosort"] = "Autosort",
 		}
 	}
 }

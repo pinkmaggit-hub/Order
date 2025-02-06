@@ -3,24 +3,29 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-# this part handles the initial sorting when the game is booted and the blind is selected
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "function Game:start_run(args)"
-position = "after"
-payload = '''
-nullifySort()
-'''
-match_indent = true
-
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
 pattern = "self.config.sort = config.sort or 'desc'"
 position = "at"
 payload = '''
+sort_button_bool = updateAutosortDefault()
+if updateAutosortDefault() == true then
 self.config.sort = config.sort or default_sort
+end
+'''
+match_indent = true
+
+
+
+# NO SORTING (for the Auto button)
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "sort = sort or false"
+position = "at"
+payload = '''
+sort = sort_button_bool or false
 '''
 match_indent = true
 
