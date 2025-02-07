@@ -3,20 +3,88 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-# Adding the "Auto" button
+# Adding the "Auto" button (using the 'at' position to facilitate changes in later updates to the other buttons)
 [[patches]]
 [patches.pattern]
 target = "functions/UI_definitions.lua"
 pattern = '''
-{n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_value", shadow = true}, nodes={
-  {n=G.UIT.T, config={text = localize('k_rank'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
-}},
+local t = {
+      n=G.UIT.ROOT, config = {align = "cm", minw = 1, minh = 0.3,padding = 0.15, r = 0.1, colour = G.C.CLEAR}, nodes={
+          G.SETTINGS.play_button_pos == 1 and discard_button or play_button,
+
+          {n=G.UIT.C, config={align = "cm", padding = 0.1, r = 0.1, colour =G.C.UI.TRANSPARENT_DARK, outline = 1.5, outline_colour = mix_colours(G.C.WHITE,G.C.JOKER_GREY, 0.7), line_emboss = 1}, nodes={
+            {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+              {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+                {n=G.UIT.T, config={text = localize('b_sort_hand'), scale = text_scale*0.8, colour = G.C.UI.TEXT_LIGHT}}
+              }},
+              {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_value", shadow = true}, nodes={
+                  {n=G.UIT.T, config={text = localize('k_rank'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+                }},
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_suit", shadow = true}, nodes={
+                  {n=G.UIT.T, config={text = localize('k_suit'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+                }}
+              }}
+            }}
+          }},
+  
+          G.SETTINGS.play_button_pos == 1 and play_button or discard_button,
+        }
+      }
 '''
-position = "before"
+position = "at"
 payload = '''
-{n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour = G.C.CHIPS, button = "sort_hand_null", shadow = true}, nodes={
-  {n=G.UIT.T, config={text = "Auto", scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
-}},
+local t = {
+      n=G.UIT.ROOT, config = {align = "cm", minw = 1, minh = 0.3,padding = 0.15, r = 0.1, colour = G.C.CLEAR}, nodes={
+          G.SETTINGS.play_button_pos == 1 and discard_button or play_button,
+
+          {n=G.UIT.C, config={align = "cm", padding = 0.1, r = 0.1, colour =G.C.UI.TRANSPARENT_DARK, outline = 1.5, outline_colour = mix_colours(G.C.WHITE,G.C.JOKER_GREY, 0.7), line_emboss = 1}, nodes={
+            {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+              {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+                {n=G.UIT.T, config={text = localize('b_sort_hand'), scale = text_scale*0.8, colour = G.C.UI.TEXT_LIGHT}}
+              }},
+              {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_value", shadow = true, func = 'ranksort_pressed'}, nodes={
+				  {n=G.UIT.T, config={text = localize('k_rank'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+				}},
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_suit", shadow = true, func = 'suitsort_pressed'}, nodes={
+				  {n=G.UIT.T, config={text = localize('k_suit'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+				}}
+              }}
+            }}
+          }},
+  
+          G.SETTINGS.play_button_pos == 1 and play_button or discard_button,
+        }
+      }
+if Order.config.autobutton then
+t = {
+      n=G.UIT.ROOT, config = {align = "cm", minw = 1, minh = 0.3,padding = 0.15, r = 0.1, colour = G.C.CLEAR}, nodes={
+          G.SETTINGS.play_button_pos == 1 and discard_button or play_button,
+
+          {n=G.UIT.C, config={align = "cm", padding = 0.1, r = 0.1, colour =G.C.UI.TRANSPARENT_DARK, outline = 1.5, outline_colour = mix_colours(G.C.WHITE,G.C.JOKER_GREY, 0.7), line_emboss = 1}, nodes={
+            {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+              {n=G.UIT.R, config={align = "cm", padding = 0}, nodes={
+                {n=G.UIT.T, config={text = localize('b_sort_hand'), scale = text_scale*0.8, colour = G.C.UI.TEXT_LIGHT}}
+              }},
+              {n=G.UIT.R, config={align = "cm", padding = 0.1}, nodes={
+			    {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour = G.C.ORANGE, button = "sort_hand_null", shadow = true, func = 'autosort_pressed'}, nodes={
+				  {n=G.UIT.T, config={text = "Auto", scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+				}},
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_value", shadow = true, func = 'ranksort_pressed'}, nodes={
+				  {n=G.UIT.T, config={text = localize('k_rank'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+				}},
+                {n=G.UIT.C, config={align = "cm", minh = 0.7, minw = 0.9, padding = 0.1, r = 0.1, hover = true, colour =G.C.ORANGE, button = "sort_hand_suit", shadow = true, func = 'suitsort_pressed'}, nodes={
+				  {n=G.UIT.T, config={text = localize('k_suit'), scale = text_scale*0.7, colour = G.C.UI.TEXT_LIGHT}}
+				}}
+              }}
+            }}
+          }},
+  
+          G.SETTINGS.play_button_pos == 1 and play_button or discard_button,
+        }
+      }
+end
 '''
 match_indent = true
 
@@ -31,7 +99,55 @@ G.FUNCS.sort_hand_null = function(e)
 	sort_button_bool = not sort_button_bool
 	if sort_button_bool then
 		G.hand:sort(default_sort)
+		nullifySort()
 	end
 end
+'''
+match_indent = true
+
+# UI INDICATORS FOR AUTOSORT/SORT ORDER
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.FUNCS.can_discard = function(e)"
+position = "before"
+payload = '''
+
+  G.FUNCS.autosort_pressed = function(e)
+	  if Order.config.cc_autosort then
+		if sort_button_bool then 
+			e.config.colour = G.C.GREEN
+		else
+			e.config.colour = G.C.RED
+		end
+	  else
+		return false
+	  end
+  end
+  
+  G.FUNCS.ranksort_pressed = function(e)
+	  if Order.config.cc_ranksuit then
+		if sort_ascending then 
+			e.config.colour = G.C.BLUE
+		elseif sort_ascending == false then
+			e.config.colour = G.C.ORANGE
+		elseif not sort_ascending then
+			if asc_bool then e.config.colour = G.C.ORANGE else e.config.colour = G.C.BLUE end
+		end
+	  end
+  end
+  
+  G.FUNCS.suitsort_pressed = function(e)
+	  if Order.config.cc_ranksuit then
+		if sort_ascending_suit then 
+			e.config.colour = G.C.BLUE
+		elseif sort_ascending_suit == false then
+			e.config.colour = G.C.ORANGE
+		elseif not sort_ascending_suit then
+			if asc_bool then e.config.colour = G.C.ORANGE else e.config.colour = G.C.BLUE end
+		end
+	  end
+  end
+  
 '''
 match_indent = true

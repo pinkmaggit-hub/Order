@@ -3,20 +3,50 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
+# Initialize autosort and force first hand of run to be sorted
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "function Game:start_run(args)"
+position = "after"
+payload = '''
+force_sort = true
+sort_button_bool = updateAutosortDefault()
+nullifySort()
+'''
+match_indent = true
+
+# Disable forced sorting when first hand of run is played or discarded
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.FUNCS.play_cards_from_highlighted = function(e)"
+position = "after"
+payload = '''
+force_sort = false
+'''
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.FUNCS.discard_cards_from_highlighted = function(e, hook)"
+position = "after"
+payload = '''
+force_sort = false
+'''
+match_indent = true
+
+#update draw funtion to use autosort and forced sorting
 [[patches]]
 [patches.pattern]
 target = "cardarea.lua"
 pattern = "self.config.sort = config.sort or 'desc'"
 position = "at"
 payload = '''
-sort_button_bool = updateAutosortDefault()
-if updateAutosortDefault() == true then
 self.config.sort = config.sort or default_sort
-end
 '''
 match_indent = true
-
-
 
 # NO SORTING (for the Auto button)
 [[patches]]
@@ -25,7 +55,11 @@ target = "functions/common_events.lua"
 pattern = "sort = sort or false"
 position = "at"
 payload = '''
-sort = sort_button_bool or false
+if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or force_sort then
+	sort = sort or false
+else
+	sort = sort_button_bool or false
+end
 '''
 match_indent = true
 
