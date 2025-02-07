@@ -7,7 +7,7 @@
 --- BADGE_COLOR: 9e74ce
 --- BADGE_TEXT_COLOR: ffffff
 --- PREFIX: order
---- VERSION: 1.0
+--- VERSION: 1.1.0
 --- LOADER_VERSION_GEQ: 1.0.0
 
 -- defs --
