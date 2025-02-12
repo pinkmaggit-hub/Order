@@ -56,12 +56,16 @@ pattern = "sort = sort or false"
 position = "at"
 payload = '''
 if G.STATE == G.STATES.TAROT_PACK or G.STATE == G.STATES.SPECTRAL_PACK or force_sort then
+	G.deck:shuffle()
 	sort = sort or false
+elseif (to == G.play) or (G.STATE == G.STATES.SMODS_BOOSTER_OPENED and SMODS.OPENED_BOOSTER.config.center.type == 'bunc_virtual') then
+	sort = false
 else
 	sort = sort_button_bool or false
 end
 '''
 match_indent = true
+
 
 # SUIT SORTING
 [[patches]]

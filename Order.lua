@@ -139,7 +139,3 @@ G.FUNCS.updateSortMethod = function() -- callback function to update chosen meth
 		G.hand:sort(default_sort) 
 	end
 end
-
-
--- TODO: add config for default autosort affecting primordial hand
--- BUG: WHEN AUTOSORT IS OFF, THE FIRST TIME RANK IS SORTED, IT'S SORTED OPPOSITE
